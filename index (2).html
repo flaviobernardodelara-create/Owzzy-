@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>OWZZY — Demonstração conceitual de e-commerce</title>
+<meta name="description" content="Projeto conceitual de e-commerce para a OWZZY, moda masculina e acessórios. Catálogo demonstrativo.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Arial' font-weight='900' fill='%23fff' text-anchor='middle'%3EO%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#000;--paper:#f2f2f0;--white:#fff;--g1:#d9d9d6;--g2:#8c8c88;--g3:#2a2a29;--max:1360px;--pad:clamp(18px,4vw,56px);--f:"Archivo","Helvetica Neue",Arial,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{font-family:var(--f);background:var(--paper);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0}
+a{color:inherit}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+h1,h2,h3{font-weight:800;font-stretch:90%;letter-spacing:-.02em;line-height:.95;text-transform:uppercase}
+/* demo bar */
+.demo{background:var(--ink);color:var(--g1);font-size:12px;text-align:center;padding:8px var(--pad);letter-spacing:.02em}
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(242,242,240,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--g1)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-weight:900;font-stretch:112%;font-size:24px;letter-spacing:.04em;text-decoration:none}
+.links{display:flex;gap:30px;list-style:none}
+.links a{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;position:relative;padding:6px 0}
+.links a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:100%;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.links a:hover::after{transform:scaleX(1)}
+.burger{display:none;width:44px;height:44px;position:relative}
+.burger i{position:absolute;left:11px;right:11px;height:2px;background:var(--ink);transition:.3s}
+.burger i:nth-child(1){top:17px}.burger i:nth-child(2){top:25px}
+.burger[aria-expanded=true] i:nth-child(1){top:21px;transform:rotate(45deg)}
+.burger[aria-expanded=true] i:nth-child(2){top:21px;transform:rotate(-45deg)}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 28px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--ink);background:var(--ink);color:var(--white);transition:background .25s,color .25s,transform .15s}
+.btn:hover{background:var(--white);color:var(--ink)}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--white)}
+.btn.inv{background:var(--white);color:var(--ink);border-color:var(--white)}
+.btn.inv:hover{background:transparent;color:var(--white)}
+.btn.inv.ghost{background:transparent;color:var(--white)}
+.btn.inv.ghost:hover{background:var(--white);color:var(--ink)}
+.btn[disabled]{opacity:.4;pointer-events:none}
+/* hero */
+.hero{position:relative;background:var(--ink);color:var(--white);min-height:calc(100svh - 100px);display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate}
+.hero-img{position:absolute;inset:0;z-index:-1}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 20%;filter:grayscale(1) contrast(1.1) brightness(.62)}
+.hero-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,0) 35%,rgba(0,0,0,.85))}
+.hero .wrap{width:100%;padding-bottom:clamp(24px,4vw,48px)}
+.tag{font-size:clamp(15px,2vw,20px);font-weight:600;font-stretch:80%;text-transform:uppercase;letter-spacing:.14em;margin-bottom:22px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:clamp(20px,3vw,40px)}
+.mark{font-weight:900;font-stretch:125%;font-size:clamp(64px,22.5vw,330px);line-height:.78;letter-spacing:-.04em;margin:0 -.04em;white-space:nowrap;animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{transform:translateY(40%);opacity:0}to{transform:none;opacity:1}}
+/* sections */
+section{padding:clamp(64px,9vw,128px) 0}
+.sh{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:clamp(28px,4vw,52px);flex-wrap:wrap}
+.sh h2{font-size:clamp(38px,7vw,96px)}
+.sh p{max-width:340px;color:#555;font-size:14px}
+.note{font-size:12px;color:#555;border-left:2px solid var(--ink);padding-left:12px;margin-bottom:28px;max-width:560px}
+/* toolbar */
+.bar{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:32px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{min-height:42px;padding:0 18px;border:1.5px solid var(--ink);font-size:13px;font-weight:600;transition:.2s}
+.chip:hover{background:var(--g1)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--white)}
+.search{position:relative;flex:1 1 240px;max-width:360px}
+.search input{width:100%;min-height:46px;padding:0 16px;border:1.5px solid var(--ink);background:transparent;font:inherit;font-size:15px;border-radius:0}
+.search input::placeholder{color:var(--g2)}
+/* grid & cards */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,28px) clamp(10px,1.6vw,22px)}
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(240px,24%);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:14px;scrollbar-width:thin}
+.row>*{scroll-snap-align:start}
+.card{display:flex;flex-direction:column}
+.ph{position:relative;aspect-ratio:4/5;background:var(--g1);overflow:hidden;cursor:pointer;width:100%}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.ph:hover img{transform:scale(1.05)}
+.flag{position:absolute;top:10px;left:10px;background:var(--ink);color:var(--white);font-size:11px;font-weight:700;padding:4px 9px;letter-spacing:.06em;text-transform:uppercase}
+.info{padding:14px 0 0;display:flex;flex-direction:column;gap:8px;flex:1}
+.info h3{font-size:16px;line-height:1.15;letter-spacing:-.005em;font-stretch:100%}
+.price{font-weight:700;font-size:15px}
+.price small{font-weight:500;color:var(--g2);font-size:11px;margin-left:6px}
+.sizes{display:flex;gap:5px;flex-wrap:wrap}
+.sz{min-width:36px;min-height:36px;padding:0 8px;border:1px solid var(--g2);font-size:12px;font-weight:600;transition:.15s}
+.sz:hover{border-color:var(--ink)}
+.sz[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--white)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:auto;padding-top:6px}
+.acts .btn{min-height:44px;padding:0 6px;font-size:11px;letter-spacing:.06em}
+.empty{grid-column:1/-1;padding:60px 0;text-align:center;color:#555}
+/* feature */
+.feat{background:var(--ink);color:var(--white)}
+.fg{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(24px,5vw,80px);align-items:center}
+.fg .ph{aspect-ratio:4/5;cursor:default;background:var(--g3)}
+.fg h2{font-size:clamp(44px,8vw,120px);margin-bottom:24px}
+.fg p{color:var(--g1);max-width:440px;margin-bottom:28px}
+.fg .ph img{filter:grayscale(1) contrast(1.1)}
+/* promo */
+.promo{background:var(--g1);padding:clamp(40px,6vw,72px) 0}
+.promo .wrap{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.promo h2{font-size:clamp(28px,4.5vw,56px)}
+.promo p{font-size:14px;color:#444;margin-top:8px}
+/* brand */
+.bg{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,6vw,100px)}
+.bg h2{font-size:clamp(40px,7vw,100px)}
+.bg p{font-size:clamp(16px,1.6vw,19px);max-width:520px;margin-bottom:18px}
+.vals{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:36px;border-top:1.5px solid var(--ink)}
+.vals div{padding:16px 12px 0 0;font-weight:700;font-size:14px;text-transform:uppercase;font-stretch:90%}
+.vals span{display:block;font-weight:400;font-size:13px;color:#555;text-transform:none;margin-top:4px}
+/* footer */
+footer{background:var(--ink);color:var(--g1);padding:clamp(48px,7vw,88px) 0 28px}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:32px;margin-bottom:48px}
+footer .logo{color:var(--white);font-size:34px;display:block;margin-bottom:12px}
+footer h4{color:var(--white);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+footer ul{list-style:none;display:grid;gap:8px;font-size:14px}
+footer a{text-decoration:none}footer a:hover{color:var(--white);text-decoration:underline}
+.legal{border-top:1px solid var(--g3);padding-top:20px;font-size:12px;color:var(--g2)}
+/* modal */
+dialog{border:0;padding:0;margin:auto;width:min(1040px,100%);max-height:100dvh;background:var(--paper);color:var(--ink);overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px)}
+dialog[open]{animation:pop .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes pop{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.mg{display:grid;grid-template-columns:1fr 1fr}
+.mg .ph{aspect-ratio:auto;min-height:100%;cursor:zoom-in}
+.mg .ph.zoom img{transform:scale(1.7);cursor:zoom-out}
+.md{padding:clamp(24px,4vw,48px);display:flex;flex-direction:column;gap:16px}
+.md h2{font-size:clamp(30px,4vw,48px);padding-right:44px}
+.md p{color:#333;font-size:15px}
+.lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.x{position:absolute;top:10px;right:10px;width:44px;height:44px;background:var(--paper);font-size:26px;line-height:1;z-index:2;border-radius:50%}
+.qty{display:inline-flex;border:1.5px solid var(--ink);width:fit-content}
+.qty button{width:44px;height:44px;font-size:20px}.qty button:hover{background:var(--g1)}
+.qty output{width:48px;display:grid;place-items:center;font-weight:700}
+.msg{font-size:13px;min-height:20px;color:#b00020}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,30px);background:var(--ink);color:var(--white);padding:12px 20px;font-size:14px;opacity:0;pointer-events:none;transition:.3s;z-index:200;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+/* responsive */
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}.row{grid-auto-columns:minmax(240px,38%)}.fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+.burger{display:block}
+.links{position:fixed;inset:0 0 auto 0;top:var(--hh,100px);background:var(--paper);flex-direction:column;gap:0;padding:8px var(--pad) 28px;border-bottom:1px solid var(--ink);transform:translateY(-120%);visibility:hidden;transition:transform .4s cubic-bezier(.2,.8,.2,1),visibility .4s;z-index:40}
+.links.open{transform:none;visibility:visible}
+.links a{display:block;font-size:22px;padding:16px 0;border-bottom:1px solid var(--g1);font-weight:800}
+.grid{grid-template-columns:repeat(2,1fr)}
+.row{grid-auto-columns:72%}
+.fg,.bg,.mg{grid-template-columns:1fr}
+.mg .ph{aspect-ratio:1/1;min-height:0}
+.vals{grid-template-columns:1fr}
+.cta .btn{flex:1 1 100%}
+.chips{flex-wrap:nowrap;overflow-x:auto;margin:0 calc(var(--pad)*-1);padding:0 var(--pad);width:calc(100% + var(--pad)*2)}
+.chip{flex:none}
+.search{max-width:none}
+dialog{max-height:100dvh;height:100dvh}
+.acts{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="demo" role="note">Projeto conceitual de demonstração · Não é a loja oficial · Produtos, preços e imagens são ilustrativos</div>
+
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="OWZZY, início">OWZZY</a>
+    <button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu"><i></i><i></i></button>
+    <ul class="links" id="menu">
+      <li><a href="#novidades">Novidades</a></li>
+      <li><a href="#colecao">Coleção</a></li>
+      <li><a href="#destaque">Destaque</a></li>
+      <li><a href="#marca">A marca</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="hero-img"><img id="heroImg" alt="Homem em look urbano, fotografia editorial ilustrativa" fetchpriority="high"></div>
+  <div class="wrap">
+    <p class="tag">Moda masculina e acessórios</p>
+    <div class="cta">
+      <a class="btn inv" href="#colecao">Explorar coleção</a>
+      <a class="btn inv ghost" href="#novidades">Ver novidades</a>
+    </div>
+    <h1 class="mark" aria-label="OWZZY. Seu estilo. Suas regras.">OWZZY</h1>
+  </div>
+</div>
+<div style="background:var(--ink);color:var(--white);text-align:center;padding:18px var(--pad);font-weight:800;font-stretch:80%;font-size:clamp(18px,3vw,30px);letter-spacing:.12em;text-transform:uppercase">Seu estilo. Suas regras.</div>
+
+<section id="novidades"><div class="wrap">
+  <div class="sh"><h2>Novidades</h2><p>Peças em destaque para quem chega pelo Instagram e quer ver rápido o que há de novo.</p></div>
+  <div class="row" id="rowNew"></div>
+</div></section>
+
+<section id="colecao" style="padding-top:0"><div class="wrap">
+  <div class="sh"><h2>Coleção</h2><p>Filtre por categoria ou pesquise pelo nome da peça.</p></div>
+  <p class="note">Catálogo demonstrativo. Produtos, preços e disponibilidade serão substituídos por informações reais após autorização do proprietário.</p>
+  <div class="bar">
+    <div class="chips" id="chips" role="group" aria-label="Categorias"></div>
+    <div class="search"><label class="sr" for="q">Pesquisar produtos</label><input id="q" type="search" placeholder="Pesquisar produtos" autocomplete="off"></div>
+  </div>
+  <p class="sr" id="live" aria-live="polite"></p>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="feat" id="destaque"><div class="wrap fg">
+  <div class="ph"><img id="featImg" alt="Coleção em destaque, imagem ilustrativa" loading="lazy"></div>
+  <div>
+    <h2 id="featTitle">Coleção em destaque</h2>
+    <p id="featText">Espaço editável para a coleção principal da temporada. Troque título, texto e foto na área CONFIG.</p>
+    <a class="btn inv" href="#colecao" data-cat="Conjuntos">Ver conjuntos</a>
+  </div>
+</div></section>
+
+<section style="padding:0"><div class="promo"><div class="wrap">
+  <div><h2 id="promoTitle">Banner promocional editável</h2><p id="promoText">Texto de exemplo. Nenhuma oferta real foi definida. Use este espaço para avisos reais da loja.</p></div>
+  <a class="btn" id="promoBtn" href="#colecao">Ver coleção</a>
+</div></div></section>
+
+<section style="padding-top:clamp(64px,9vw,128px)"><div class="wrap">
+  <div class="sh"><h2>Mais vendidos</h2><p>Exemplos demonstrativos. Sem dados reais de vendas.</p></div>
+  <div class="row" id="rowTop"></div>
+</div></section>
+
+<section id="marca" style="padding-top:0"><div class="wrap bg">
+  <h2>A marca</h2>
+  <div>
+    <p id="brandText1">A OWZZY veste quem escolhe o próprio ritmo. Peças pensadas para o dia a dia da cidade, com atitude e conforto.</p>
+    <p id="brandText2">Texto de apresentação em rascunho. Será reescrito com a história e os valores reais, definidos pelo proprietário.</p>
+    <div class="vals"><div>Atitude<span>Identidade própria</span></div><div>Conforto<span>Para o uso diário</span></div><div>Estilo<span>Do básico ao marcante</span></div></div>
+    <p style="margin-top:32px"><a class="btn" id="igBtn" href="#" target="_blank" rel="noopener noreferrer">Ver Instagram oficial</a></p>
+  </div>
+</div></section>
+</main>
+
+<footer id="contato"><div class="wrap">
+  <div class="fgrid">
+    <div><a class="logo" href="#top">OWZZY</a><p style="max-width:300px;font-size:14px" id="fAbout">Moda masculina e acessórios.</p></div>
+    <div><h4>Navegar</h4><ul><li><a href="#novidades">Novidades</a></li><li><a href="#colecao">Coleção</a></li><li><a href="#marca">A marca</a></li></ul></div>
+    <div><h4>Contato</h4><ul><li><a href="#" id="fWa" target="_blank" rel="noopener noreferrer">WhatsApp</a></li><li><a href="#" id="fIg" target="_blank" rel="noopener noreferrer">Instagram</a></li></ul></div>
+    <div><h4>Loja</h4><ul><li id="fAddr">Endereço a definir</li><li id="fHours">Horário a definir</li></ul></div>
+  </div>
+  <p class="legal">Demonstração conceitual de e-commerce. Não representa a loja oficial. Nenhuma compra é realizada neste site. Imagens ilustrativas.</p>
+</div></footer>
+
+<dialog id="dlg" aria-labelledby="dName"></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+/* ===================== CONFIGURAÇÃO (edite aqui) ===================== */
+const CONFIG = {
+  brand: "OWZZY",
+  whatsapp: "",            // Ex.: "5541999999999" (DDI + DDD + número). Vazio = botão avisa que falta configurar.
+  instagram: "",           // Ex.: "https://www.instagram.com/usuario/"
+  address: "Endereço a definir",
+  hours: "Horário a definir",
+  about: "Moda masculina e acessórios.",
+  hero: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1800&q=70", // troque por foto autorizada
+  featured: { title: "Coleção em destaque", text: "Espaço editável para a coleção principal da temporada. Troque título, texto e foto aqui.", image: "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1000&q=70" },
+  promo: { title: "Banner promocional editável", text: "Texto de exemplo. Nenhuma oferta real foi definida.", button: "Ver coleção", link: "#colecao" },
+  currency: "R$"
+};
+/* Produtos DEMONSTRATIVOS. image: "" usa ilustração gerada; coloque a URL/arquivo da foto real aqui. */
+const S4=["P","M","G","GG"], SN=["38","40","42","44"], SU=["Único"];
+const PRODUCTS = [
+  {id:1,name:"Jogger Cargo Preto",cat:"Calças e joggers",price:189.9,sizes:SN,type:"pants",tone:"#1b1b1b",isNew:true,top:true,image:"",desc:"Descrição de exemplo. Jogger de modelagem reta com bolsos laterais. Edite com os detalhes reais."},
+  {id:2,name:"Calça Utility Cinza",cat:"Calças e joggers",price:219.9,sizes:SN,type:"pants",tone:"#6b6b68",isNew:false,top:true,image:"",desc:"Descrição de exemplo. Calça de caimento solto, pensada para o uso diário."},
+  {id:3,name:"Camiseta Oversized Off-white",cat:"Camisetas",price:99.9,sizes:S4,type:"tee",tone:"#e9e7e1",isNew:true,top:true,image:"",desc:"Descrição de exemplo. Camiseta oversized em malha. Edite tecido e medidas reais."},
+  {id:4,name:"Camiseta Boxy Preta",cat:"Camisetas",price:109.9,sizes:S4,type:"tee",tone:"#111",isNew:true,top:false,image:"",desc:"Descrição de exemplo. Corte boxy com gola reforçada."},
+  {id:5,name:"Camiseta Gráfica Grafite",cat:"Camisetas",price:119.9,sizes:S4,type:"tee",tone:"#3a3a38",isNew:false,top:true,image:"",desc:"Descrição de exemplo. Estampa autoral a definir pela marca."},
+  {id:6,name:"Bermuda Tactel Preta",cat:"Bermudas",price:129.9,sizes:SN,type:"shorts",tone:"#151515",isNew:false,top:false,image:"",desc:"Descrição de exemplo. Bermuda leve para dias quentes."},
+  {id:7,name:"Bermuda Cargo Cinza",cat:"Bermudas",price:149.9,sizes:SN,type:"shorts",tone:"#85857f",isNew:true,top:false,image:"",desc:"Descrição de exemplo. Bermuda com bolsos laterais amplos."},
+  {id:8,name:"Conjunto Moletom Preto",cat:"Conjuntos",price:329.9,sizes:S4,type:"set",tone:"#0f0f0f",isNew:true,top:true,image:"",desc:"Descrição de exemplo. Conjunto de blusa e calça. Edite composição real."},
+  {id:9,name:"Conjunto Camiseta + Bermuda",cat:"Conjuntos",price:219.9,sizes:S4,type:"set",tone:"#9b9b96",isNew:false,top:false,image:"",desc:"Descrição de exemplo. Conjunto combinando para o verão."},
+  {id:10,name:"Boné Aba Curva Preto",cat:"Acessórios",price:79.9,sizes:SU,type:"cap",tone:"#121212",isNew:false,top:true,image:"",desc:"Descrição de exemplo. Boné com regulagem traseira."},
+  {id:11,name:"Pochete Transversal",cat:"Acessórios",price:89.9,sizes:SU,type:"bag",tone:"#2b2b2a",isNew:true,top:false,image:"",desc:"Descrição de exemplo. Pochete compacta para o essencial."},
+  {id:12,name:"Corrente Aço Prata",cat:"Acessórios",price:69.9,sizes:SU,type:"chain",tone:"#c8c8c4",isNew:false,top:false,image:"",desc:"Descrição de exemplo. Acessório em aço. Edite material real."}
+];
+/* ====================================================================== */
+
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const brl=n=>CONFIG.currency+" "+n.toFixed(2).replace(".",",");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+
+/* Ilustração gerada (usada quando não há foto) */
+const SH={
+ tee:'<path d="M60 40l-40 28 16 34 18-10v100h92V92l18 10 16-34-40-28c-8 14-22 20-40 20S68 54 60 40z"/>',
+ pants:'<path d="M58 28h104l10 170h-44l-18-100-18 100H48z"/><path d="M58 28h104v18H58z" opacity=".35"/>',
+ shorts:'<path d="M56 50h108l14 100h-52l-16-48-16 48H42z"/><path d="M56 50h108v16H56z" opacity=".35"/>',
+ set:'<path d="M50 24l-30 22 12 28 14-8v60h52V66l14 8 12-28-30-22c-6 10-16 14-30 14S56 34 50 24z"/><path d="M62 150h60l6 66h-24l-12-44-12 44H56z"/>',
+ cap:'<path d="M50 120c0-44 28-70 62-70s62 26 62 70z"/><path d="M130 120h70c0 12-30 20-70 16z" opacity=".6"/>',
+ bag:'<rect x="40" y="80" width="140" height="88" rx="30"/><path d="M40 100c40-60 100-60 140 0" fill="none" stroke="currentColor" stroke-width="10"/>',
+ chain:'<g fill="none" stroke="currentColor" stroke-width="9"><circle cx="110" cy="112" r="72"/><circle cx="110" cy="112" r="52" stroke-dasharray="14 8"/></g>'
+};
+function art(p){
+  const dark=parseInt(p.tone.slice(1,3),16)<110;
+  const bg=dark?"#d6d6d2":"#2a2a29", fg=dark?"#e8e8e4":"#121212";
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 275"><rect width="220" height="275" fill="${bg}"/><g transform="translate(0,22)" fill="${p.tone}" stroke="${dark?"#000":"#fff"}" stroke-opacity=".25" color="${p.tone}">${SH[p.type]}</g><text x="110" y="262" font-family="Arial" font-weight="900" font-size="11" letter-spacing="3" text-anchor="middle" fill="${fg}" opacity=".55">OWZZY · ILUSTRATIVO</text></svg>`;
+  return "data:image/svg+xml,"+encodeURIComponent(svg);
+}
+const src=p=>p.image||art(p);
+function fallback(img,p,cover){ img.onerror=()=>{img.onerror=null;img.src=cover?"data:image/svg+xml,"+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500"><rect width="400" height="500" fill="#161616"/></svg>'):art(p)}; }
+
+/* Card */
+const sel={}; // tamanho escolhido por produto
+function card(p){
+  const el=document.createElement("article"); el.className="card";
+  el.innerHTML=`<button class="ph" aria-label="Ver detalhes de ${esc(p.name)}">${p.isNew?'<span class="flag">Novo</span>':''}<img alt="${esc(p.name)}, imagem ilustrativa" loading="lazy" width="440" height="550"></button>
+  <div class="info"><h3>${esc(p.name)}</h3><div class="price">${brl(p.price)}<small>preço demo</small></div>
+  <div class="sizes" role="group" aria-label="Tamanhos">${p.sizes.map(s=>`<button class="sz" aria-pressed="${sel[p.id]===s}" data-s="${s}" aria-label="Tamanho ${s}">${s}</button>`).join("")}</div>
+  <div class="acts"><button class="btn ghost" data-a="det">Ver detalhes</button><button class="btn" data-a="ask">Consultar</button></div></div>`;
+  const img=$("img",el); fallback(img,p); img.src=src(p);
+  return el;
+}
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".card"); if(!c) return;
+  const name=$("h3",c).textContent, p=PRODUCTS.find(x=>x.name===name); if(!p) return;
+  const sz=e.target.closest(".sz");
+  if(sz){ sel[p.id]=sel[p.id]===sz.dataset.s?null:sz.dataset.s; $$(".card").forEach(k=>{ if($("h3",k).textContent===name) $$(".sz",k).forEach(b=>b.setAttribute("aria-pressed",b.dataset.s===sel[p.id])) }); return; }
+  if(e.target.closest(".ph")||e.target.closest('[data-a="det"]')) return openModal(p);
+  if(e.target.closest('[data-a="ask"]')){
+    if(p.sizes.length>1&&!sel[p.id]){ toast("Escolha um tamanho para consultar."); return; }
+    waOpen(p,sel[p.id]||p.sizes[0],1);
+  }
+});
+
+/* WhatsApp */
+function waOpen(p,size,qty){
+  if(!CONFIG.whatsapp){ toast("WhatsApp ainda não configurado. Adicione o número em CONFIG.whatsapp."); return false; }
+  const t=`Olá! Vi o site da ${CONFIG.brand} e tenho interesse em: ${p.name} (tamanho ${size}, quantidade ${qty}). Está disponível?`;
+  window.open("https://wa.me/"+CONFIG.whatsapp.replace(/\D/g,"")+"?text="+encodeURIComponent(t),"_blank","noopener");
+  return true;
+}
+let tt; function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),3200)}
+
+/* Modal */
+const dlg=$("#dlg");
+function openModal(p){
+  let size=p.sizes.length===1?p.sizes[0]:(sel[p.id]||null), qty=1;
+  dlg.innerHTML=`<button class="x" aria-label="Fechar detalhes">×</button><div class="mg"><button class="ph" id="mImgW" aria-label="Ampliar imagem"><img id="mImg" alt="${esc(p.name)}, imagem ilustrativa"></button>
+  <div class="md"><h2 id="dName">${esc(p.name)}</h2><div class="price" style="font-size:22px">${brl(p.price)}<small>preço demonstrativo</small></div>
+  <p>${esc(p.desc)}</p>
+  <div><div class="lbl" style="margin-bottom:8px">Tamanho</div><div class="sizes" id="mSz">${p.sizes.map(s=>`<button class="sz" data-s="${s}" aria-pressed="${s===size}">${s}</button>`).join("")}</div></div>
+  <div><div class="lbl" style="margin-bottom:8px">Quantidade</div><div class="qty"><button aria-label="Diminuir" data-q="-1">−</button><output id="mQ" aria-live="polite">1</output><button aria-label="Aumentar" data-q="1">+</button></div></div>
+  <p class="msg" id="mMsg" role="alert"></p>
+  <button class="btn" id="mWa">Tenho interesse · WhatsApp</button>
+  <p style="font-size:12px;color:#666">Demonstração: nenhuma compra é realizada. O contato é feito direto com a loja.</p></div></div>`;
+  const img=$("#mImg"); fallback(img,p); img.src=src(p);
+  $("#mImgW").onclick=e=>e.currentTarget.classList.toggle("zoom");
+  $(".x",dlg).onclick=()=>dlg.close();
+  $("#mSz").onclick=e=>{const b=e.target.closest(".sz");if(!b)return;size=b.dataset.s;sel[p.id]=size;$$("#mSz .sz").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#mMsg").textContent="";render()};
+  $$("[data-q]",dlg).forEach(b=>b.onclick=()=>{qty=Math.min(10,Math.max(1,qty+ +b.dataset.q));$("#mQ").textContent=qty});
+  $("#mWa").onclick=()=>{ if(!size){$("#mMsg").textContent="Escolha um tamanho.";return} waOpen(p,size,qty) };
+  dlg.showModal(); document.body.style.overflow="hidden";
+}
+dlg.addEventListener("close",()=>document.body.style.overflow="");
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+
+/* Catálogo: filtros + pesquisa */
+const cats=["Todos",...new Set(PRODUCTS.map(p=>p.cat))]; let cat="Todos", term="";
+$("#chips").innerHTML=cats.map(c=>`<button class="chip" aria-pressed="${c==="Todos"}">${c}</button>`).join("");
+$("#chips").onclick=e=>{const b=e.target.closest(".chip");if(!b)return;setCat(b.textContent)};
+function setCat(c){cat=c;$$(".chip").forEach(x=>x.setAttribute("aria-pressed",x.textContent===c));render()}
+$("#q").addEventListener("input",e=>{term=norm(e.target.value.trim());render()});
+function render(){
+  const list=PRODUCTS.filter(p=>(cat==="Todos"||p.cat===cat)&&(!term||norm(p.name+" "+p.cat).includes(term)));
+  const g=$("#grid"); g.replaceChildren();
+  if(!list.length){g.innerHTML='<p class="empty">Nenhum produto encontrado. Tente outro termo ou categoria.</p>'}
+  else list.forEach(p=>g.append(card(p)));
+  $("#live").textContent=list.length+" produto"+(list.length===1?"":"s")+" exibido"+(list.length===1?"":"s");
+}
+function fillRow(id,fn){const r=$(id);PRODUCTS.filter(fn).forEach(p=>r.append(card(p)))}
+
+/* Conteúdo configurável */
+(function init(){
+  const h=$("#heroImg"); fallback(h,null,true); h.src=CONFIG.hero;
+  const f=$("#featImg"); fallback(f,null,true); f.src=CONFIG.featured.image;
+  $("#featTitle").textContent=CONFIG.featured.title; $("#featText").textContent=CONFIG.featured.text;
+  $("#promoTitle").textContent=CONFIG.promo.title; $("#promoText").textContent=CONFIG.promo.text;
+  $("#promoBtn").textContent=CONFIG.promo.button; $("#promoBtn").href=CONFIG.promo.link;
+  $("#fAbout").textContent=CONFIG.about; $("#fAddr").textContent=CONFIG.address; $("#fHours").textContent=CONFIG.hours;
+  const ig=[$("#igBtn"),$("#fIg")];
+  ig.forEach(a=>{ if(CONFIG.instagram){a.href=CONFIG.instagram}else{a.removeAttribute("target");a.href="#";a.addEventListener("click",ev=>{ev.preventDefault();toast("Instagram ainda não configurado. Adicione o endereço em CONFIG.instagram.")})} });
+  const w=$("#fWa"); if(CONFIG.whatsapp){w.href="https://wa.me/"+CONFIG.whatsapp.replace(/\D/g,"")}else{w.removeAttribute("target");w.addEventListener("click",ev=>{ev.preventDefault();toast("WhatsApp ainda não configurado. Adicione o número em CONFIG.whatsapp.")})}
+  $$("[data-cat]").forEach(a=>a.addEventListener("click",()=>setCat(a.dataset.cat)));
+  fillRow("#rowNew",p=>p.isNew); fillRow("#rowTop",p=>p.top); render();
+  /* menu mobile */
+  const b=$("#burger"),m=$("#menu"),hd=$("header");
+  const setH=()=>m.style.setProperty("--hh",(hd.getBoundingClientRect().bottom)+"px");
+  const close=()=>{m.classList.remove("open");b.setAttribute("aria-expanded","false");b.setAttribute("aria-label","Abrir menu")};
+  b.onclick=()=>{setH();const o=m.classList.toggle("open");b.setAttribute("aria-expanded",o);b.setAttribute("aria-label",o?"Fechar menu":"Abrir menu")};
+  m.addEventListener("click",e=>{if(e.target.closest("a"))close()});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")close()});
+  addEventListener("resize",()=>{if(innerWidth>760)close()});
+})();
+</script>
+</body>
+</html>
